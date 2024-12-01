@@ -21,11 +21,17 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        "phone_number",
-        "store_name",
-        "notes",
+        'phone_number',
+        'store_name',
+        'notes',
+        'avatar',
     ];
+    protected $appends = [];
 
+    public function getAvatarUrlAttribute()
+    {
+        return $this->avatar ? asset('storage/' . $this->avatar) : null;
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
