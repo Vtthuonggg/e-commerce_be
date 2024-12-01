@@ -47,7 +47,7 @@ class UserController extends Controller
             'phone_number' => $request->phone_number,
             'store_name' => $request->store_name,
             'notes' => $request->notes,
-            'avatar' => $user->avatar,
+            'avatar' => $request->avatar,
         ]);
 
         return response()->json([
