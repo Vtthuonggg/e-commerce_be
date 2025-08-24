@@ -25,6 +25,7 @@ class User extends Authenticatable
         'store_name',
         'notes',
         'avatar',
+        'user_type',
     ];
     protected $appends = [];
 

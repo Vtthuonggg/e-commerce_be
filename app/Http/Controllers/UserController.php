@@ -35,6 +35,7 @@ class UserController extends Controller
             'store_name' => 'nullable|string|max:255',
             'notes' => 'nullable|string',
             'avatar' => 'nullable|string|max:255',
+            'user_type' => 'nullable|integer|in:2,3',
         ]);
 
         // Kiểm tra xác thực
@@ -57,11 +58,12 @@ class UserController extends Controller
             'store_name' => $request->store_name,
             'notes' => $request->notes,
             'avatar' => $request->avatar,
+            'user_type' => $request->user_type ?? $user->user_type,
         ]);
 
         return response()->json([
             'message' => 'Thông tin người dùng đã được cập nhật thành công.',
-            'user' => $user->only(['id', 'name', 'email', 'phone_number', 'store_name', 'notes', 'avatar']),
+            'user' => $user->only(['id', 'name', 'email', 'phone_number', 'store_name', 'notes', 'avatar', 'user_type']),
         ]);
     }
 
