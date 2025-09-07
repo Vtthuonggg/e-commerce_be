@@ -9,11 +9,11 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'price', 'stock', 'category_id', 'type', 'user_id'];
+    protected $fillable = ['name', 'retail_cost', 'base_cost', 'stock', 'category_id', 'type', 'user_id'];
 
     // Constants cho type
-    const TYPE_INGREDIENT = 'ingredient'; // Nguyên liệu
-    const TYPE_SELLABLE = 'sellable';     // Sản phẩm bán
+    const TYPE_SELLABLE = 1; // Sản phẩm bán
+    const TYPE_INGREDIENT = 2; // Nguyên liệu
 
     public function category()
     {

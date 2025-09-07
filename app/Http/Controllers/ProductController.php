@@ -8,17 +8,27 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        $type = $request->query('type', 1);
+        $size = (int) $request->query('size', 20); // size mặc định là 20
+        $page = (int) $request->query('page', 1);
+        $products = Product::where('type', $type)
+            ->paginate($size, ['*'], 'page', $page);
+        return response()->json($products);
+    }
     // Lấy tất cả nguyên liệu
     public function getIngredients()
     {
-        $ingredients = Product::ingredients()->get();
+        $ingredients = Product::where('type', 2)->get();
         return response()->json($ingredients);
     }
 
     // Lấy tất cả sản phẩm bán
     public function getSellableProducts()
     {
-        $products = Product::sellable()->with('requiredIngredients')->get();
+        $products = Product::where('type', 1)->with('requiredIngredients')->get();
         return response()->json($products);
     }
 
@@ -27,11 +37,11 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
+            'retail_cost' => 'required|numeric|min:0',
+            'base_cost' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
-            'type' => 'required|in:ingredient,sellable',
+            'type' => 'required|integer|in:1,2',
             'unit' => 'nullable|string|max:50',
         ]);
 
@@ -53,7 +63,7 @@ class ProductController extends Controller
     // Thêm công thức cho sản phẩm bán
     public function addRecipe(Request $request, $productId)
     {
-        $product = Product::sellable()->findOrFail($productId);
+        $product = Product::where('type', 1)->findOrFail($productId); // 1 là sellable
 
         $validator = Validator::make($request->all(), [
             'ingredients' => 'required|array',
