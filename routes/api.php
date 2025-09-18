@@ -23,9 +23,15 @@ Route::middleware('auth:sanctum')->group(function () {
     // Image upload
     Route::post('/upload-image', [ImageController::class, 'upload']);
 
-    // Products
-    Route::apiResource('products', ProductController::class);
-    Route::get('ingredients', [ProductController::class, 'getIngredients']);
-    Route::get('sellable-products', [ProductController::class, 'getSellableProducts']);
-    Route::post('products/{product}/recipe', [ProductController::class, 'addRecipe']);
+   Route::prefix('product')->group(function () {
+ Route::get('/', [ProductController::class, 'index']);                    // GET /api/product
+        Route::post('/', [ProductController::class, 'store']);                   // POST /api/product
+        Route::get('/{id}', [ProductController::class, 'show']);                 // GET /api/product/{id}
+        Route::put('/{id}', [ProductController::class, 'update']);               // PUT /api/product/{id}
+        Route::delete('/{id}', [ProductController::class, 'destroy']);           // DELETE /api/product/{id}
+      
+        Route::get('/ingredients', [ProductController::class, 'getIngredients']);
+        Route::get('/sellable-products', [ProductController::class, 'getSellableProducts']);
+        Route::post('/{product}/recipe', [ProductController::class, 'addRecipe']);
+    });
 });

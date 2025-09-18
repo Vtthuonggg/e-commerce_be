@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -18,7 +19,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
             'user_type' => 'nullable|integer|in:2,3',
         ]);
-
+Log::info(json_encode($validator));
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
@@ -60,6 +61,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        Log::info('Login request received', $request->all());
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|',
             'password' => 'required|string',
