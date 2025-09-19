@@ -10,7 +10,14 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'retail_cost', 'base_cost', 'stock', 'category_id', 'type', 'user_id'];
-
+    protected $casts = [
+        'retail_cost' => 'integer',
+        'base_cost' => 'integer',
+        'stock' => 'float',
+        'type' => 'integer',
+        'user_id' => 'integer',
+        'category_id' => 'integer',
+    ];
     // Constants cho type
     const TYPE_SELLABLE = 1; // Sản phẩm bán
     const TYPE_INGREDIENT = 2; // Nguyên liệu

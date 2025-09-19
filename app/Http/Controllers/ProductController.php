@@ -41,12 +41,13 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'retail_cost' => 'required|int|min:0',
-            'base_cost' => 'required|int|min:0',
+            'retail_cost' => 'required|integer|min:0',
+            'base_cost' => 'required|integer|min:0',
             'stock' => 'required|numeric|min:0',
             'category_id' => 'nullable|exists:categories,id',
             'type' => 'required|integer|in:1,2',
             'unit' => 'nullable|string|max:50',
+            'description' => 'nullable|string|max:1000',
         ]);
 
         if ($validator->fails()) {
